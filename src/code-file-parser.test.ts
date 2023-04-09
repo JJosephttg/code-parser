@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
-import { CodeFileParser } from './code-file-parser';
 import path from 'path';
+import { CodeFileParser } from './code-file-parser';
 
 describe('CodeFileParser', () => {
   describe('parseFile', () => {
@@ -25,14 +25,14 @@ describe('CodeFileParser', () => {
     });
 
     it('returns absolute path to file parsed', async () => {
-      const resolveSpy = jest.spyOn(path, 'resolve').mockReturnValue('\\some\\path\\somefile.ts')
+      const resolveSpy = jest.spyOn(path, 'resolve').mockReturnValueOnce('\\some\\path\\somefile.ts');
       jest.spyOn(fs, 'readFile').mockResolvedValue('');
 
       const sut = new CodeFileParser();
       const result = await sut.parseFile('somefile.ts');
 
       expect(resolveSpy).toHaveBeenCalledWith('somefile.ts');
-      expect(result.filePath).toEqual('\\some\\path\\somefile.ts');
+      expect(result.filePath).toBe('\\some\\path\\somefile.ts');
     });
   });
 });
