@@ -4,6 +4,6 @@ export type CodeLine = {
 
 export class CodeLineParser {
   public getLineInfo(line: string): CodeLine[] {
-    return [];
+    return line.split('\n').map(l => ({ rawLine: l }));;
   }
 }
