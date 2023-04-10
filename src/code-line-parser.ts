@@ -3,7 +3,7 @@ export type CodeLine = {
 };
 
 export class CodeLineParser {
-  public getLineInfo(line: string): CodeLine[] {
+  public parseLines(line: string): CodeLine[] {
     return line.split('\n').map(l => ({ rawLine: l }));;
   }
 }

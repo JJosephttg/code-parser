@@ -40,7 +40,7 @@ describe('CodeFileParser', () => {
       mockFileContentRead(content);
 
       const lineParserSpy = jest.fn().mockReturnValue([{ rawLine: 'line 1' }, { rawLine: 'line 2' }, { rawLine: 'line 3' }]);
-      const sut = new CodeFileParser({ getLineInfo: lineParserSpy });
+      const sut = new CodeFileParser({ parseLines: lineParserSpy });
       const result = await sut.parseFile('somefile.ts');
 
       expect(lineParserSpy).toHaveBeenCalledWith(content);

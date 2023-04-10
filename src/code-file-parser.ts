@@ -13,11 +13,11 @@ export class CodeFileParser {
   
   public async parseFile(filePath: string): Promise<CodeFile> {
     const rawContent = await readFile(filePath, 'utf-8');
-    
+
     return {
       filePath: path.resolve(filePath),
       rawContent,
-      lines: this.lineParser.getLineInfo(rawContent),
+      lines: this.lineParser.parseLines(rawContent),
     }
   }
 }
