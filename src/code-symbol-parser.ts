@@ -10,6 +10,6 @@ export class CodeSymbolParser {
   public constructor(private _codeContent: string) {}
 
   public parseSymbols(): CodeSymbol[] {
-    return this._codeContent ? [{ type: CodeSymbolType.VARIABLE }] : [];
+    return this._codeContent.match(/const/g)?.map(s => ({ type: CodeSymbolType.VARIABLE })) ?? [];
   }
 }
