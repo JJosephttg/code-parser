@@ -21,7 +21,7 @@ describe('CodeFileParser', () => {
       const sut = new CodeFileParser();
       const result = await sut.parseFile('somefile');
 
-      expect(result.rawContent).toEqual(expectedContent);
+      expect(result.raw.content).toEqual(expectedContent);
     });
 
     it('returns absolute path to file parsed', async () => {
@@ -43,8 +43,7 @@ describe('CodeFileParser', () => {
       const sut = new CodeFileParser({ parseLines: lineParserSpy });
       const result = await sut.parseFile('somefile.ts');
 
-      expect(lineParserSpy).toHaveBeenCalledWith(content);
-      expect(result.lines.map(l => l.rawLine)).toEqual(['line 1', 'line 2', 'line 3']);
+      expect(result.raw.lines).toEqual(['line 1', 'line 2', 'line 3']);
     });
 
     function mockFileContentRead(content: string) {

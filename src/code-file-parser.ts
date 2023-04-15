@@ -4,8 +4,10 @@ import { CodeLine, CodeLineParser } from './code-line-parser';
 
 export type CodeFile = {
   filePath: string;
-  rawContent: string;
-  lines: CodeLine[];
+  raw: {
+    content: string;
+    lines: string[];
+  };
 };
 
 export class CodeFileParser {
@@ -16,8 +18,10 @@ export class CodeFileParser {
 
     return {
       filePath: path.resolve(filePath),
-      rawContent,
-      lines: this.lineParser.parseLines(rawContent),
+      raw: {
+        content: rawContent,
+        lines: rawContent.split('\n'),
+      },
     }
   }
 }
