@@ -24,5 +24,12 @@ describe('CodeSymbolParser', () => {
         expect(result).toEqual([{ type: 'variable' }, { type: 'variable' }]);
       });
     });
+
+    it('returns symbols for mixture of let and const and var', () => {
+      const content = 'const a = 1;let b = 2;\nvar c = 3;';
+      
+      const result = new CodeSymbolParser(content).parseSymbols();
+      expect(result).toEqual([{ type: 'variable' }, { type: 'variable' }, { type: 'variable' }]);
+    });
   });
 });
