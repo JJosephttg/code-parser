@@ -1,6 +1,5 @@
 import { readFile } from 'fs/promises';
 import path from 'path';
-import { CodeLine, CodeLineParser } from './code-line-parser';
 
 export type CodeFile = {
   filePath: string;
@@ -11,8 +10,6 @@ export type CodeFile = {
 };
 
 export class CodeFileParser {
-  public constructor(private readonly lineParser = new CodeLineParser()) {}
-  
   public async parseFile(filePath: string): Promise<CodeFile> {
     const rawContent = await readFile(filePath, 'utf-8');
 
