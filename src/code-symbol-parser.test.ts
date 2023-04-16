@@ -1,4 +1,4 @@
-import moo from 'moo';
+import moo, { Lexer } from 'moo';
 import { CodeSymbolParser } from './code-symbol-parser';
 import { CodeSymbol, LanguageParser } from './types';
 
@@ -19,7 +19,7 @@ describe('CodeSymbolParser', () => {
       const result = new CodeSymbolParser(content, mockLangParser).parseSymbols();
       expect(result).toEqual([{ type: 'variable' }]);
       expect(parseFromSymbolSpy).toHaveBeenCalledTimes(1);
-      expect(parseFromSymbolSpy).toHaveBeenCalledWith('variableDec');
+      expect(parseFromSymbolSpy).toHaveBeenCalledWith(expect.objectContaining({ type: 'variableDec' }), expect.anything());
     });
 
     it('returns array with parsed symbols when code matches multiple symbols', () => {
@@ -32,8 +32,8 @@ describe('CodeSymbolParser', () => {
       const result = new CodeSymbolParser(content, mockLangParser).parseSymbols();
       expect(result).toEqual([{ type: 'variable1' }, { type: 'variable2' }]);
       expect(parseFromSymbolSpy).toHaveBeenCalledTimes(2);
-      expect(parseFromSymbolSpy).toHaveBeenNthCalledWith(1, 'variableDec1');
-      expect(parseFromSymbolSpy).toHaveBeenNthCalledWith(2, 'variableDec2');
+      expect(parseFromSymbolSpy).toHaveBeenNthCalledWith(1, expect.objectContaining({ type: 'variableDec1' }), expect.anything());
+      expect(parseFromSymbolSpy).toHaveBeenNthCalledWith(2, expect.objectContaining({ type: 'variableDec2' }), expect.anything());
     });
 
     it('does not include undefined code symbols in result', () => {
@@ -44,7 +44,7 @@ describe('CodeSymbolParser', () => {
       const result = new CodeSymbolParser(content, mockLangParser).parseSymbols();
       expect(result).toEqual([]);
       expect(parseFromSymbolSpy).toHaveBeenCalledTimes(1);
-      expect(parseFromSymbolSpy).toHaveBeenCalledWith('unknown');
+      expect(parseFromSymbolSpy).toHaveBeenCalledWith(expect.objectContaining({ type: 'unknown' }), expect.anything());
     });
 
     const defaultRuleSet = { unknown: moo.error };

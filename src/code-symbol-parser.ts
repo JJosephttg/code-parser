@@ -12,11 +12,9 @@ export class CodeSymbolParser<SymbolTypes extends string, LangParser extends Lan
     const results = [];
     this._lexer.reset(this._codeContent);
 
-    let currentToken = this._lexer.next();
-    while(currentToken) {
-      const symbol = this._languageParser.parseFromSymbolType(currentToken.type as string);
+    for (let currentToken = this._lexer.next(); currentToken; currentToken = this._lexer.next()) {
+      const symbol = this._languageParser.parseFromSymbolType(currentToken, this._lexer);
       if (symbol) results.push(symbol);
-      currentToken = this._lexer.next();
     }
     return results;
   }
