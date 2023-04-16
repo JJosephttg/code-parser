@@ -5,7 +5,7 @@ export class CodeSymbolParser<SymbolTypes extends string, LangParser extends Lan
   private _lexer;
 
   public constructor(private _codeContent: string, private _languageParser: LangParser) {
-    this._lexer = moo.compile(_languageParser.ruleSet);
+    this._lexer = moo.states(_languageParser.ruleSet);
   }
 
   public parseSymbols(): CodeSymbol<SymbolTypes>[] {

@@ -1,6 +1,6 @@
 import moo, { Lexer } from 'moo';
 import { CodeSymbolParser } from './code-symbol-parser';
-import { CodeSymbol, LanguageParser } from './types';
+import { CodeSymbol, LanguageParser, RuleSet } from './types';
 
 describe('CodeSymbolParser', () => {
   describe('parseSymbols', () => {
@@ -13,7 +13,7 @@ describe('CodeSymbolParser', () => {
 
     it('returns array with parsed symbol when code matches a single symbol', () => {
       const content = 'const';
-      const mockLangParser = createMockLangParser({ ...defaultRuleSet, variableDec: /const/ });
+      const mockLangParser = createMockLangParser({ ...defaultRuleSet, main: { ...defaultRuleSet.main, variableDec: /const/ } });
       const parseFromSymbolSpy = jest.spyOn(mockLangParser, 'parseFromSymbolType').mockReturnValueOnce({ type: 'variable' });
 
       const result = new CodeSymbolParser(content, mockLangParser).parseSymbols();
@@ -24,7 +24,9 @@ describe('CodeSymbolParser', () => {
 
     it('returns array with parsed symbols when code matches multiple symbols', () => {
       const content = 'constlet';
-      const mockLangParser = createMockLangParser({ ...defaultRuleSet, variableDec1: /const/, variableDec2: /let/ });
+      const mockLangParser = createMockLangParser({
+        ...defaultRuleSet, main: { ...defaultRuleSet.main, variableDec1: /const/, variableDec2: /let/ }
+      });
       const parseFromSymbolSpy = jest.spyOn(mockLangParser, 'parseFromSymbolType')
         .mockReturnValueOnce({ type: 'variable1' })
         .mockReturnValueOnce({ type: 'variable2' });
@@ -47,8 +49,8 @@ describe('CodeSymbolParser', () => {
       expect(parseFromSymbolSpy).toHaveBeenCalledWith(expect.objectContaining({ type: 'unknown' }), expect.anything());
     });
 
-    const defaultRuleSet = { unknown: moo.error };
-    function createMockLangParser(ruleSet: moo.Rules = defaultRuleSet) {
+    const defaultRuleSet = { main: { unknown: moo.error } };
+    function createMockLangParser(ruleSet: RuleSet = defaultRuleSet) {
       return {
         ruleSet,
         parseFromSymbolType: jest.fn(),
