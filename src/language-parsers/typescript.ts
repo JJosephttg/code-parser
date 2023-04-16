@@ -7,7 +7,7 @@ export class TypeScriptParser implements LanguageParser<SymbolTypes> {
   public ruleSet = {
     main: {
       unknown: moo.error,
-      variableDec: /(?:const|let|var) [aA-zZ]/,
+      variableDec: /(?:const|let|var) [aA-zZ]+ =/,
     },
   };
   

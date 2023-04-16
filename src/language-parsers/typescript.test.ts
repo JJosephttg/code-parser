@@ -41,6 +41,12 @@ describe('TypeScriptParser', () => {
         const result = parser.parseFromSymbolType(token, lexer);
         expect(result).toEqual(undefined);
       });
+
+      it('returns nothing if only name and const declaration keyword is present', () => {
+        const [parser, lexer, token] = setupLexer('const foo');
+        const result = parser.parseFromSymbolType(token, lexer);
+        expect(result).toEqual(undefined);
+      });
     });
   });
 
