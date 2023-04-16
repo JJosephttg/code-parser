@@ -20,16 +20,3 @@ export class CodeSymbolParser<SymbolTypes extends string, LangParser extends Lan
   }
 }
 
-// Structure of library
-// Parsers:
-// - FileParser
-// - Specific symbol parsers (variables, functions, classes, etc.)
-
-// Language specific parsing based on symbol:
-// - TypescriptParser (Contains variable, function, class, etc. tokenizers)
-
-
-// SymbolParser:
-// takes string content and a class which contains a ruleset and a method to get the parser for the rule when it is found
-// uses the ruleset from the language to interpret the file and choose the correct parser for each symbol which returns a code symbol object 
-
