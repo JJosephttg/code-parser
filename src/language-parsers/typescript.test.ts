@@ -8,11 +8,39 @@ describe('TypeScriptParser', () => {
     expect(result).toEqual(undefined);
   });
 
-  describe('variable declaration', () => {
-    it('returns variable symbol for const variable declaration', () => {
-      const [parser, lexer, token] = setupLexer('const foo = 5;');
-      const result = parser.parseFromSymbolType(token, lexer);
-      expect(result).toEqual({ type: 'variable' });
+  describe('Variable declaration', () => {
+    describe('Valid variable declarations', () => {
+      it('returns variable symbol for const variable declaration', () => {
+        const [parser, lexer, token] = setupLexer('const foo = 5;');
+        const result = parser.parseFromSymbolType(token, lexer);
+        expect(result).toEqual({ type: 'variable' });
+      });
+  
+      it('returns variable symbol for let variable declaration', () => {
+        const [parser, lexer, token] = setupLexer('let foo = 5;');
+        const result = parser.parseFromSymbolType(token, lexer);
+        expect(result).toEqual({ type: 'variable' });
+      });
+  
+      it('returns variable symbol for var variable declaration', () => {
+        const [parser, lexer, token] = setupLexer('var foo = 5;');
+        const result = parser.parseFromSymbolType(token, lexer);
+        expect(result).toEqual({ type: 'variable' });
+      });
+    });
+   
+    describe('Invalid variable declarations', () => {
+      it('returns nothing if only the variable declaration keyword is present', () => {
+        const [parser, lexer, token] = setupLexer('const');
+        const result = parser.parseFromSymbolType(token, lexer);
+        expect(result).toEqual(undefined);
+      });
+  
+      it('returns nothing if only assignment and var declaration keyword is present', () => {
+        const [parser, lexer, token] = setupLexer('const =');
+        const result = parser.parseFromSymbolType(token, lexer);
+        expect(result).toEqual(undefined);
+      });
     });
   });
 
